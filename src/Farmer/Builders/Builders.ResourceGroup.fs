@@ -241,7 +241,10 @@ type DeploymentBuilder() =
             { state with
                 Dependencies = state.Dependencies + newDeps
             }
-
+    [<CustomOperation "add_resources_in_location">]
+    member this.AddInLocation (state, location, resources) =
+        this.AddArmResources(state, resources |> List.collect (fun x -> x.BuildResources location))
+        
 type ResourceGroupBuilder() =
     inherit DeploymentBuilder()
 
